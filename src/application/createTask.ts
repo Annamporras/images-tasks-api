@@ -1,6 +1,7 @@
 import { Task } from "../core/Task";
 import { v4 as uuidv4 } from "uuid";
 import { TaskRepository } from "../core/TaskRepository";
+import { processImage } from "../infra/imageProcessor";
 
 export async function createTask(
     originalPath: string,
@@ -19,5 +20,23 @@ export async function createTask(
     }
 
     await repository.save(task)
+
+    processImage(originalPath)
+        .then(async (images) => {
+            task.status = "completed";
+            task.images = images;
+            task.updatedAt = new Date();
+
+            await repository.update(task);
+
+        })
+        .catch(async () => {
+
+            task.status = "failed";
+            task.updatedAt = new Date();
+
+            await repository.update(task);
+
+        });
     return task
 }

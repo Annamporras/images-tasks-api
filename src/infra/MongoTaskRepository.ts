@@ -10,7 +10,9 @@ export class MongoTaskRepository implements TaskRepository {
             _id: task.id,
             status: task.status,
             price: task.price,
-            originalPath: task.originalPath
+            originalPath: task.originalPath,
+            createdAt: task.createdAt,
+            updatedAt: task.updatedAt
         });
 
     }
@@ -26,10 +28,24 @@ export class MongoTaskRepository implements TaskRepository {
             status: task.status as TaskStatus,
             price: task.price,
             originalPath: task.originalPath,
+            images: task.images?.map(img => ({
+                resolution: img.resolution as number,
+                path: img.path as string,
+            })),
             createdAt: task.createdAt,
             updatedAt: task.updatedAt
         };
 
+    }
+    async update(task: Task): Promise<void> {
+        await TaskModel.updateOne(
+            { _id: task.id },
+            {
+                status: task.status,
+                images: task.images,
+                updatedAt: new Date()
+            }
+        );
     }
 
 }

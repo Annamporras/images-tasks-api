@@ -12,5 +12,9 @@ export class TestInMemoryTaskRepository implements TaskRepository {
     async findById(taskId: string): Promise<Task | null> {
         return this.tasks.get(taskId) || null;
     }
+    async update(task: Task): Promise<void> {
+        this.tasks.set(task.id, task);
+
+    }
 
 }

@@ -1,7 +1,7 @@
 export type TaskStatus = "pending" | "completed" | "failed";
 
 export interface ImageSize {
-    resolution: string;
+    resolution: number;
     path: string;
 }
 

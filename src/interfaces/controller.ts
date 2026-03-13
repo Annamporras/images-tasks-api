@@ -32,6 +32,7 @@ export async function getTaskHandler(req: Request, res: Response) {
 
     const task = await getTask(taskId, repository);
 
+
     if (!task) {
         return res.status(404).json({ error: "Task not found" });
     }
