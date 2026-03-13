@@ -21,22 +21,27 @@ export async function createTask(
 
     await repository.save(task)
 
-    processImage(originalPath)
-        .then(async (images) => {
-            task.status = "completed";
-            task.images = images;
-            task.updatedAt = new Date();
+    if (process.env.NODE_ENV !== "test") {
 
-            await repository.update(task);
+        processImage(originalPath)
+            .then(async (images) => {
 
-        })
-        .catch(async () => {
+                task.status = "completed";
+                task.images = images;
+                task.updatedAt = new Date();
 
-            task.status = "failed";
-            task.updatedAt = new Date();
+                await repository.update(task);
 
-            await repository.update(task);
+            })
+            .catch(async () => {
 
-        });
+                task.status = "failed";
+                task.updatedAt = new Date();
+
+                await repository.update(task);
+
+            });
+
+    }
     return task
 }

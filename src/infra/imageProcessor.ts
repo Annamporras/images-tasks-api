@@ -33,6 +33,5 @@ export async function processImage(originalPath: string) {
         });
 
     }
-    console.log('RESULTS', results)
     return results;
 }
