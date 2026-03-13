@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { createTask } from "../application/createTask";
-import { TestInMemoryTaskRepository } from "../infra/testInMemoryTaskRepository";
+import { MongoTaskRepository } from "../infra/MongoTaskRepository";
 import { getTask } from "../application/getTask";
 
 
-const repository = new TestInMemoryTaskRepository();
+const repository = new MongoTaskRepository();
 
 export async function createTaskHandler(req: Request, res: Response) {
     const { imagePath } = req.body;

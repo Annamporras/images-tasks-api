@@ -1,7 +1,16 @@
 import app from "./app";
+import { connectMongo } from "./infra/db/mongo"
 
 const PORT = 3000;
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+async function start() {
+
+    await connectMongo();
+
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+
+}
+
+start();
